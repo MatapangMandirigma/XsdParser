@@ -148,6 +148,9 @@ public class DefaultParserConfig implements ParserConfig {
         xsdTypesToJava.put("xsd:untypedAtomic", string);
         xsdTypesToJava.put("xs:untypedAtomic", string);
         xsdTypesToJava.put("untypedAtomic", string);
+        xsdTypesToJava.put("xsd:base64Binary", string);
+        xsdTypesToJava.put("xs:base64Binary", string);
+        xsdTypesToJava.put("base64Binary", string);
 
         return xsdTypesToJava;
     }
