@@ -66,6 +66,7 @@ public class XsdExtension extends XsdAnnotatedElements {
                 parser.addUnsolvedReference((UnsolvedReference) this.base);
             }
         }
+        
     }
 
     /**
@@ -90,7 +91,7 @@ public class XsdExtension extends XsdAnnotatedElements {
         if (this.childElement instanceof UnsolvedReference && elem instanceof XsdGroup && compareReference(element, (UnsolvedReference) this.childElement)){
             this.childElement = element;
         }
-
+       
         ((XsdExtensionVisitor)visitor).replaceUnsolvedAttributes(parser, element, this);
     }
 

@@ -38,6 +38,11 @@ public class XsdRestriction extends XsdAnnotatedElements {
      * The {@link XsdSimpleType} instance of this {@link XsdRestriction} instance.
      */
     private ReferenceBase simpleType;
+    
+    /**
+     * The {@link XsdComplexType} instance of this {@link XsdRestriction} instance.
+     */
+    private ReferenceBase complexType;
 
     /**
      * A List of {@link XsdEnumeration} items, that represent a set of possible values for a given type.
@@ -130,8 +135,8 @@ public class XsdRestriction extends XsdAnnotatedElements {
                     throw new ParsingException("Invalid Parsing Configuration for XsdElement.");
                 }
 
-                this.simpleType = new UnsolvedReference(this.base, new XsdElement(this, this.parser, new HashMap<>(), config.visitorFunction));
-                parser.addUnsolvedReference((UnsolvedReference) this.simpleType);
+                this.complexType = new UnsolvedReference(this.base, new XsdElement(this, this.parser, new HashMap<>(), config.visitorFunction));
+                parser.addUnsolvedReference((UnsolvedReference) this.complexType);
             }
         }
     }
@@ -155,6 +160,10 @@ public class XsdRestriction extends XsdAnnotatedElements {
 
         if (this.simpleType instanceof UnsolvedReference && element.getElement() instanceof XsdSimpleType && compareReference(element, (UnsolvedReference) this.simpleType)){
             this.simpleType = element;
+        }
+        
+        if (this.complexType instanceof UnsolvedReference && element.getElement() instanceof XsdComplexType && compareReference(element, (UnsolvedReference) this.complexType)){
+            this.complexType = element;
         }
 
         if (this.group instanceof UnsolvedReference && this.group.getElement() instanceof XsdGroup &&
@@ -272,6 +281,22 @@ public class XsdRestriction extends XsdAnnotatedElements {
 
             if (typeElement instanceof XsdSimpleType){
                 return (XsdSimpleType) typeElement;
+            }
+        }
+
+        return null;
+    }
+    
+    public XsdComplexType getComplexType() {
+        return complexType == null || complexType instanceof UnsolvedReference ? getXsdComplexTypeFromType() : (XsdComplexType) complexType.getElement();
+    }
+    
+    private XsdComplexType getXsdComplexTypeFromType(){
+        if (complexType instanceof ConcreteElement){
+            XsdAbstractElement typeElement = complexType.getElement();
+
+            if (typeElement instanceof XsdComplexType){
+                return (XsdComplexType) typeElement;
             }
         }
 
